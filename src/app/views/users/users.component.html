@@ -1,0 +1,40 @@
+<div class="container">
+    <form class="row g-3" #contactForm="ngForm" (ngSubmit)="addUser(contactForm.value)">
+        <div class="col-12">
+            <label for="userName" class="form-label">User Name</label>
+            <input type="text" class="form-control" id="inputAddress" placeholder="User Name" name="username" #userName="ngModel" ngModel required minlength="5" (change)="log(userName)" />
+            <div class="error d-flex justify-content-center" *ngIf="userName.touched && userName.invalid">
+                <div *ngIf="userName.errors?.['required']">First Name Is required</div>
+                <div *ngIf="userName.errors?.['minlength']">
+                    User Name Minlength Is {{userName.errors?.['minlength'].requiredLength}} ... You Have Entered {{userName.errors?.['minlength'].actualLength}}
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <label for="inputEmail4" class="form-label">Email</label>
+            <input type="email" class="form-control" id="inputEmail4" name="email" #email="ngModel" ngModel (change)="log(email)" required email />
+            <div class="error d-flex justify-content-center" *ngIf="email.touched && email.invalid">
+                <div *ngIf="email.errors?.['required']">Email Is required</div>
+                <div *ngIf="email.errors?.['email']">Email Is Invalid</div>
+            </div>
+        </div>
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary" [disabled]="contactForm.invalid">
+              Add User
+            </button>
+        </div>
+    </form>
+</div>
+<br><br><br>
+<div class="container">
+    <div class="card w-49" *ngFor="let user of UsersData;let i=index">
+        <h5 class="card-header">Personal Data</h5>
+        <div class="card-body">
+            <h5 class="card-title">User Name: {{user.username}}</h5>
+            <p>Email: {{user.email}}</p>
+            <a routerLink="/singleuser/{{user.id}}" class="btn btn-primary">Details</a>
+            <a class="btn btn-sm btn-danger" (click)="deleteUser(user.id,i)">Delete</a>
+            <a class="btn btn-sm btn-success" routerLink="edituser/{{user.id}}">Update</a>
+        </div>
+    </div>
+</div>
